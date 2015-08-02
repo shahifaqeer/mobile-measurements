@@ -16,6 +16,7 @@ def topSites(argv):
     Global = False
     if argv[0].lower() == 'global':
         Global = True
+        country_code = 'global'
     else:
         country_code = argv[0].upper()
     number = int(argv[1])
@@ -41,19 +42,12 @@ def topSites(argv):
             site_list.append((rank, site))
             #print('%s%s%s' % (rank, delimiter, site))
 
-    if Global == True:
-        global_top = []
-        for site in site_list:
-            global_top.append(site[1])
-        with open( (OUTPUTFILE %('global')), 'w') as outfile:
-            json.dump(global_top, outfile)
-
-    else:
-        country_top = []
-        for site in site_list:
-            country_top.append(site[1])
-        with open( (OUTPUTFILE %(country_code)), 'w') as outfile:
-            json.dump(country_top, outfile)
+    country_top = []
+    for site in site_list:
+        # json rank, site tuple
+        country_top.append(site)
+    with open( (OUTPUTFILE %(country_code)), 'w') as outfile:
+        json.dump(country_top, outfile)
 
     return site_list
 
